@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>game</title>
+        <style>
+            body{
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .game{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                width: 500px;
+                height: 500px;
+                gap: 5px;
+                color: white;
+                font-size: 130px;
+            }
+            span{
+                background-color: rgb(32, 109, 209);
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                user-select: none;
+            }
+            span:hover{
+                background-color: rgb(0, 174, 255);
+            }
+            p{
+                font-size: 50px;
+                text-align: center;
+            }
+            button{
+                font-size: 40px;
+                border: none;
+                background-color: rgb(19, 98, 151);
+                transition: .3s;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 5px;
+            }
+            button:hover{
+                background-color: rgb(10, 178, 207);
+            }
+            @media screen and (max-width:600px){
+                .game{
+                    width: 350px;
+                    height: 350px;
+                    font-size: 90px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="game">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p id="win"></p>
+        <script>
+            let place = document.getElementsByTagName('span');
+            let a = 'O';
+            let end = false;
+            let btn = document.createElement('button');
+            btn.textContent = 'NEW'
+            btn.onclick = () => {
+                end = false;
+                win.innerText = '';
+                for(let i = 0; i < place.length; i++){
+                    place[i].textContent =  '';
+                }
+                btn.remove();
+            }
+            function winner(){
+                win.innerText = a + ' WINS';
+                end = true;
+                document.body.append(btn);
+            }
+            for(let i =  0; i < place.length; i++){
+                place[i].onclick = function(){
+                    if(end){
+                        return;
+                    }
+                    if(a === 'O' && place[i].textContent === ''){
+                        place[i].textContent = 'X';
+                        a = 'X';
+                    }else if(a === 'X' && place[i].textContent === ''){
+                        place[i].textContent = 'O';
+                        a = 'O';
+                    }
+                }
+            }
+            document.onclick = function(){
+                if(place[0].textContent === place[1].textContent && place[1].textContent === place[2].textContent && place[2].textContent != ''){
+                    winner()
+                }else if(place[3].textContent === place[4].textContent && place[4].textContent === place[5].textContent && place[4].textContent != ''){
+                    winner()
+                }else if(place[6].textContent === place[7].textContent && place[7].textContent === place[8].textContent && place[7].textContent != ''){
+                    winner()
+                }else if(place[0].textContent === place[3].textContent && place[3].textContent === place[6].textContent && place[3].textContent != ''){
+                    winner()
+                }else if(place[1].textContent === place[4].textContent && place[4].textContent === place[7].textContent && place[4].textContent != ''){
+                    winner()
+                }else if(place[2].textContent === place[5].textContent && place[5].textContent === place[8].textContent && place[5].textContent != ''){
+                    winner()
+                }else if(place[0].textContent === place[4].textContent && place[4].textContent === place[8].textContent && place[4].textContent != ''){
+                    winner()
+                }else if(place[2].textContent === place[4].textContent && place[4].textContent === place[6].textContent && place[4].textContent != ''){
+                    winner()
+                }else{
+                    let val = true;
+                    for (let i = 0; i < place.length; i++) {
+                        if (place[i].textContent === '') {
+                        val = false;
+                        break;
+                        }
+                    }
+                    if (val) {
+                        win.innerText = 'DRAW';
+                        end = true;
+                        document.body.append(btn);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
